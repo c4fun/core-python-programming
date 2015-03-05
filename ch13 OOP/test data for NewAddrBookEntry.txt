@@ -1,0 +1,7 @@
+jessica= PersonalAddrBookEntry('jessica stewart', ['123454', '52156489'])
+
+
+john = NewAddrBookEntry('jon stewart', ['123454', '52156489'])
+
+
+Bill= PersonalAddrBookEntry('Bill Gates', ['541564897', '5498494'], 'Seahawk street, Seattle, Washington', 'married, but soon to be divorced', '19531025')
