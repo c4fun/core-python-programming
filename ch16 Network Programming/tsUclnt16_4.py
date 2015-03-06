@@ -1,16 +1,14 @@
-"""
-This client send data to server, then receive data from server
-"""
-
+__author__ = 'Richard'
 from socket import *
 
 HOST = 'localhost'
 PORT = 21567
 BUFSIZE = 1024
-#经过实测，如果data超过这个bufsize，客户端会自动退出。
 ADDR = (HOST, PORT)
 
-def tcpCliSockAddr(host = HOST, port = PORT):
+udpCliSock = socket(AF_INET,SOCK_DGRAM)
+
+def udpCliSockAddr(host = HOST, port = PORT):
     #enable the socket to connect to a certain address
     #cliSock.connect((host, port))
     #应该有比下面更好的调用时的方法，可以让在调用的时候遇见空就取默认值
@@ -18,22 +16,19 @@ def tcpCliSockAddr(host = HOST, port = PORT):
     port = PORT if port =='' else int(port)
     return (host, port)
 
-print(ADDR)
-tcpCliSock = socket(AF_INET, SOCK_STREAM)
 host = input('Input a host: an IPv4 address. e.g. localhost, 127.0.0.1 >')
 port = input('Input a port: an integer in 65535. e.g. 17548 >')
-address = tcpCliSockAddr(host, port)
+address = udpCliSockAddr(host, port)
 print(address)
-tcpCliSock.connect(address)
 
 while True:
-    data = input('> ')
+    data = input("> ")
     if not data:
         break
-    tcpCliSock.send(data.encode())
-    data = tcpCliSock.recv(BUFSIZE)
+    udpCliSock.sendto(data.encode(), address)
+    data, address = udpCliSock.recvfrom(BUFSIZE)
     if not data:
-        break
+        break;
     print(data.decode())
 
-tcpCliSock.close()
+udpCliSock.close()

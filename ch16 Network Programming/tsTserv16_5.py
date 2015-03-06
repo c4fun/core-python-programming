@@ -1,5 +1,6 @@
 """
 This server returns timestamps
+16-5: The server recognizes the following 3 commands: date, os, ls
 """
 
 from socket import *
@@ -15,6 +16,17 @@ tcpSerSock = socket(AF_INET, SOCK_STREAM)
 tcpSerSock.bind(ADDR)
 tcpSerSock.listen(5)
 
+def is_command(data_str):
+    if (data_str == 'date'):
+        return ctime()
+    if (data_str == 'os'):
+        return os.name
+    if (data_str == 'ls'):
+        return ("The current directory {0} has the following files: {1}"
+                .format(os.curdir, os.listdir()))
+    else:
+        return False
+
 while True:
     print('Waiting for connection...')
     tcpCliSock, addr = tcpSerSock.accept()
@@ -24,7 +36,9 @@ while True:
         data = tcpCliSock.recv(BUFSIZE)
         if not data:
             break
-        sendData = '[%s] %s'%(ctime(), data.decode())
+        data_str = data.decode()
+        sendData = '[%s] %s'%(ctime(), data_str) if not is_command(data_str) \
+            else is_command(data_str)
         tcpCliSock.send(sendData.encode())
 
     tcpCliSock.close()
