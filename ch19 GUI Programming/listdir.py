@@ -69,7 +69,7 @@ class DirList(object):
         self.cwd.set(check)
         self.doLS()
 
-    def doLS(self):
+    def doLS(self, ev=None):
         # list the directory of the entry directory
         error = ''
         tdir = self.cwd.get()
