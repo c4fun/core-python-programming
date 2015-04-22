@@ -9,6 +9,7 @@ Features: The App and SaveFile are two separate frames.
 """
 
 import tkinter as tk
+from enchant.checker import SpellChecker
 
 class SaveFile(tk.Toplevel):
     def __init__(self, original_frame, string_to_write=''):
